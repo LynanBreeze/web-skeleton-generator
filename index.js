@@ -42,7 +42,7 @@
   }
   
   const generateSvg = async (ele, options) => {
-    const { inScreenOnly = true } = options || {};
+    const { inScreenOnly = true, fillColor = "rgba(227, 227, 227, 0.8)" } = options || {};
     let targetEle = document.body;
   
     if (ele) {
@@ -56,7 +56,6 @@
     const { innerWidth, innerHeight } = window;
     let canvasWidth = inScreenOnly ? innerWidth : eleWidth;
     const canvasHeight = inScreenOnly ? innerHeight : eleHeight;
-    const fillColor = "rgba(227, 227, 227, 0.8)";
   
     let SvgNodeArr = [];
     SvgNodeArr.push(
@@ -169,7 +168,7 @@
         element.children.length === 1 && element.children[0].tagName === "svg";
   
       if (
-        ["H1", "H2", "H3", "H4", "H5", "SPAN", "P", "DEL", 'BUTTON', 'SMALL'].includes(
+        ["H1", "H2", "H3", "H4", "H5", "SPAN", "P", "DEL", 'BUTTON', 'SMALL', "svg"].includes(
           element.tagName
         ) ||
         isIconWrap ||
