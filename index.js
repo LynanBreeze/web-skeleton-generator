@@ -353,4 +353,4 @@
   // generateSvg(document.getElementsByClassName('l m n o c')[0]).then((res) => copy(res));
   
   // generateSvg().then(res=>copy(res))
-}());
+})();
