@@ -1,26 +1,26 @@
-(function(){
+(function () {
   const convertRestArgsIntoStylesArr = ([...args]) => {
     return args.slice(1);
   };
-  
+
   const getStyles = function () {
     const args = [...arguments];
     const [element] = args;
-  
+
     let stylesProps =
       [...args][1] instanceof Array
         ? args[1]
         : convertRestArgsIntoStylesArr(args);
-  
+
     const styles = window.getComputedStyle(element);
     const stylesObj = stylesProps.reduce((acc, v) => {
       acc[v] = styles.getPropertyValue(v);
       return acc;
     }, {});
-  
+
     return stylesObj;
   };
-  
+
   function getElementWidth(element) {
     const newElement = element.cloneNode(true);
     document.body.appendChild(newElement);
@@ -29,7 +29,7 @@
     document.body.removeChild(newElement);
     return width;
   }
-  
+
   function getElementHeight(element) {
     const newElement = element.cloneNode(true);
     document.body.appendChild(newElement);
@@ -40,30 +40,36 @@
     }, 100);
     return height;
   }
-  
+
   const generateSvg = async (ele, options) => {
-    const { inScreenOnly = true, fillColor = "rgba(227, 227, 227, 0.8)" } = options || {};
+    const { inScreenOnly = true, fillColor = "rgba(227, 227, 227, 0.8)" } =
+      options || {};
     let targetEle = document.body;
-  
+
     if (ele) {
-      targetEle = typeof ele === 'string'? document.querySelectorAll(ele)[0] : ele;
+      targetEle =
+        typeof ele === "string" ? document.querySelectorAll(ele)[0] : ele;
     }
-    if(!targetEle.getAttribute){
-      return
+    if (!targetEle.getAttribute) {
+      return;
     }
-    const { width: eleWidth, height: eleHeight, x: offsetX, y: offsetY } =
-      targetEle.getBoundingClientRect();
+    const {
+      width: eleWidth,
+      height: eleHeight,
+      x: offsetX,
+      y: offsetY,
+    } = targetEle.getBoundingClientRect();
     const { innerWidth, innerHeight } = window;
     let canvasWidth = inScreenOnly ? innerWidth : eleWidth;
     const canvasHeight = inScreenOnly ? innerHeight : eleHeight;
-  
+
     let SvgNodeArr = [];
     SvgNodeArr.push(
       `<svg width="${canvasWidth}" height="${canvasHeight}" viewBox="0 0 ${canvasWidth} ${canvasHeight}" fill="none" xmlns="http://www.w3.org/2000/svg">`
     );
-  
+
     let nodes = [];
-  
+
     const forEachNode = async (element) => {
       let { x, y, width, height } = element.getBoundingClientRect();
       width = Math.min(
@@ -94,13 +100,13 @@
         ":before",
         ":after",
       ]);
-  
+
       let elementBackgroundColor =
         styles["background-color"] &&
         !["rgba(0, 0, 0, 0)"].includes(styles["background-color"])
           ? styles["background-color"]
           : "";
-  
+
       if (
         ["IMG", "VIDEO", "IFRAME"].includes(element.tagName) ||
         (element.children[0] &&
@@ -108,7 +114,7 @@
       ) {
         elementBackgroundColor = fillColor;
       }
-  
+
       let borderRadiusValue = styles["border-radius"];
       // if (
       //   element.children.length === 1 &&
@@ -118,7 +124,7 @@
       //     "border-radius"
       //   ]: ''
       // }
-  
+
       const parentStyles = getStyles(element.parentElement, [
         "border-radius",
         "overflow",
@@ -129,10 +135,10 @@
             "overflow",
           ])
         : {};
-  
+
       const parentElement = element.parentElement;
       const grandParentElement = element.parentElement.parentElement || null;
-  
+
       if (
         parentElement &&
         width === parentElement.getBoundingClientRect().width &&
@@ -142,7 +148,7 @@
       ) {
         borderRadiusValue = parentStyles["border-radius"];
       }
-  
+
       if (
         grandParentElement &&
         width === grandParentElement.getBoundingClientRect().width &&
@@ -152,7 +158,7 @@
       ) {
         borderRadiusValue = grandParentStyles["border-radius"];
       }
-  
+
       if (!/%/.test(borderRadiusValue)) {
         if (/\s|^0px/.test(borderRadiusValue)) {
           borderRadiusValue = "";
@@ -163,14 +169,25 @@
           }
         }
       }
-  
+
       const isIconWrap =
         element.children.length === 1 && element.children[0].tagName === "svg";
-  
+
       if (
-        ["H1", "H2", "H3", "H4", "H5", "SPAN", "P", "DEL", 'BUTTON', 'SMALL', "svg"].includes(
-          element.tagName
-        ) ||
+        [
+          "H1",
+          "H2",
+          "H3",
+          "H4",
+          "H5",
+          "SPAN",
+          "P",
+          "DEL",
+          "BUTTON",
+          "SMALL",
+          "svg",
+          "EM",
+        ].includes(element.tagName) ||
         isIconWrap ||
         !element.children.length ||
         elementBackgroundColor
@@ -206,7 +223,7 @@
               x = x + (parentElementWidth - width) / 2;
             }
           }
-  
+
           if (
             ["H1", "H2", "H3", "H4", "H5", "P"].includes(
               element.parentElement.tagName
@@ -216,7 +233,7 @@
             const parentWidth = getElementWidth(element);
             width = width > parentWidth ? parentWidth : width;
           }
-  
+
           if (
             !element.children.length &&
             /\S/.test(element.textContent) &&
@@ -230,7 +247,7 @@
               }
             }
           }
-  
+
           if (
             !element.children.length &&
             /\S/.test(element.textContent) &&
@@ -248,7 +265,7 @@
                 height -= pdb;
               }
             }
-  
+
             if (styles["padding-left"] !== "0px") {
               const pdl = Number(styles["padding-left"].replace(/px/g, ""));
               x += pdl;
@@ -259,9 +276,9 @@
               width -= pdr;
             }
           }
-  
+
           let skip = false;
-  
+
           if (
             element.tagName === "A" &&
             element.children.length === 1 &&
@@ -272,12 +289,12 @@
           ) {
             skip = true;
           }
-  
+
           const hasPseudo =
             window
               .getComputedStyle(element, ":before")
               .getPropertyValue("content") !== "none";
-  
+
           if (
             !["IMG", "VIDEO", "IFRAME", "svg", "INPUT"].includes(
               element.tagName
@@ -291,11 +308,11 @@
           ) {
             skip = true;
           }
-  
+
           if (["FIGURE"].includes(element.tagName)) {
             skip = true;
           }
-  
+
           if (
             element.tagName === "P" &&
             element.children.length === 1 &&
@@ -303,11 +320,11 @@
           ) {
             skip = true;
           }
-  
+
           !skip &&
             nodes.push({
-              x: x- offsetX,
-              y: y- offsetY,
+              x: x - offsetX,
+              y: y - offsetY,
               width,
               height,
               elementBackgroundColor,
@@ -322,11 +339,17 @@
       }
       return true;
     };
-  
+
     const addRects = () => {
       nodes.forEach((node) => {
-        const { x, y, width, height, elementBackgroundColor, borderRadiusValue } =
-          node;
+        const {
+          x,
+          y,
+          width,
+          height,
+          elementBackgroundColor,
+          borderRadiusValue,
+        } = node;
         SvgNodeArr.push(
           `<rect x="${x}" y="${y}" width="${width}" height="${height}" fill="${
             elementBackgroundColor || fillColor
@@ -334,10 +357,54 @@
         );
       });
     };
-  
+
+    const removeDuplicates = (arr) => {
+      let res = [];
+      arr.forEach((item) => {
+        if (
+          !res.find((resItem) => {
+            const { x, y, width, height } = item;
+            const {
+              x: resX,
+              y: resY,
+              width: resWidth,
+              height: resHeight,
+            } = resItem;
+            return (
+              x === resX &&
+              y === resY &&
+              width === resWidth &&
+              height === resHeight
+            );
+          })
+        ) {
+          res.push(item);
+        } else {
+          const itemIndex = res.findIndex((resItem) => {
+            const { x, y, width, height } = item;
+            const {
+              x: resX,
+              y: resY,
+              width: resWidth,
+              height: resHeight,
+            } = resItem;
+            return (
+              x === resX &&
+              y === resY &&
+              width === resWidth &&
+              height === resHeight
+            );
+          });
+          res[itemIndex] = item;
+        }
+      });
+      return res;
+    };
+
     await forEachNode(targetEle);
+    nodes = removeDuplicates(nodes);
     addRects();
-  
+
     //   SvgNodeArr.push(`<defs>
     // <clipPath >
     // <rect width="${canvasWidth}" height="${canvasHeight}" fill="white"/>
@@ -346,10 +413,10 @@
     SvgNodeArr.push(`</svg>`);
     return SvgNodeArr.join("\n");
   };
-  
-  window.generateSvg = generateSvg
-  
+
+  window.generateSvg = generateSvg;
+
   // generateSvg(document.getElementsByClassName('l m n o c')[0]).then((res) => copy(res));
-  
-  // generateSvg().then(res=>copy(res))
+
+  // generateSvg().then((res) => copy(res));
 })();
