@@ -168,7 +168,7 @@ const generateSvg = async (ele, options) => {
       element.children.length === 1 && element.children[0].tagName === "svg";
 
     if (
-      ["H1", "H2", "H3", "H4", "H5", "SPAN", "P", "DEL"].includes(
+      ["H1", "H2", "H3", "H4", "H5", "SPAN", "P", "DEL", 'BUTTON', 'SMALL'].includes(
         element.tagName
       ) ||
       isIconWrap ||
@@ -349,4 +349,4 @@ const generateSvg = async (ele, options) => {
 
 // generateSvg(document.getElementsByClassName('l m n o c')[0]).then((res) => copy(res));
 
-// generateSvg().then(res=>res)
+// generateSvg().then(res=>copy(res))
