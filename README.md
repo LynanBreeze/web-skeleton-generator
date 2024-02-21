@@ -8,6 +8,7 @@ Generate SVG skeleton image from HTML.
 |--------|-------|
 | ![](https://github.com/LynanBreeze/web-skeleton-generator/blob/main/public/imgs/medium_before.jpg?raw=true)     | ![](https://github.com/LynanBreeze/web-skeleton-generator/blob/main/public/imgs/medium.svg?raw=true)     |
 | ![](https://github.com/LynanBreeze/web-skeleton-generator/blob/main/public/imgs/lynan_before.jpg?raw=true)      | ![](https://github.com/LynanBreeze/web-skeleton-generator/blob/main/public/imgs/lynan_after.jpg?raw=true)     |
+| ![](https://github.com/LynanBreeze/web-skeleton-generator/blob/main/public/imgs/youtube_before.jpg?raw=true)      | ![](https://github.com/LynanBreeze/web-skeleton-generator/blob/main/public/imgs/youtube_after.jpg?raw=true)     |
 
 ## Usage
 
