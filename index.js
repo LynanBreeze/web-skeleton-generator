@@ -107,6 +107,10 @@
           ? styles["background-color"]
           : "";
 
+      if (styles["background-image"] !== "none") {
+        elementBackgroundColor = fillColor;
+      }
+
       if (
         ["IMG", "VIDEO", "IFRAME"].includes(element.tagName) ||
         (element.children[0] &&
@@ -305,6 +309,14 @@
             !isIconWrap &&
             styles["background-color"] === "rgba(0, 0, 0, 0)" &&
             styles["background-image"] === "none"
+          ) {
+            skip = true;
+          }
+
+          if (
+            element.tagName === "SPAN" &&
+            element.children.length === 1 &&
+            element.innerHTML === element.children[0].outerHTML
           ) {
             skip = true;
           }
