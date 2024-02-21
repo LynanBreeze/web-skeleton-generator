@@ -37,3 +37,12 @@ or
   };
 })()
 ```
+
+### Paramaters
+
+Parameters of `generateSvg(ele, options)` can be configured as you need.
+
+| parameter | optional value                    | default value                                |
+|-----------|-----------------------------------|----------------------------------------------|
+| ele       | HTMLElement, Selector             | `document.body`                              |
+| options   | {<br>    inScreenOnly: boolean<br>} | {<br>    inScreenOnly: true<br>}<br> |
