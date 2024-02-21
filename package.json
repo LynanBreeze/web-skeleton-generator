@@ -1,0 +1,24 @@
+{
+  "name": "web-skeleton-generator",
+  "version": "1.0.0",
+  "description": "Generate SVG skeleton image from HTML.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "minify": "uglifyjs index.js --output dist/index.min.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LynanBreeze/web-skeleton-generator.git"
+  },
+  "author": "Lynan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LynanBreeze/web-skeleton-generator/issues"
+  },
+  "homepage": "https://github.com/LynanBreeze/web-skeleton-generator#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "uglify-js": "^3.17.4"
+  }
+}
