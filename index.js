@@ -42,8 +42,15 @@ function getElementHeight(element) {
 
 const generateSvg = async (ele, options) => {
   const { inScreenOnly = true } = options || {};
-  const targetEle = document.body;
-  const { width: eleWidth, height: eleHeight } =
+  let targetEle = document.body;
+
+  if (ele) {
+    targetEle = typeof ele === 'string'? document.querySelectorAll(ele)[0] : ele;
+  }
+  if(!targetEle.getAttribute){
+    return
+  }
+  const { width: eleWidth, height: eleHeight, x: offsetX, y: offsetY } =
     targetEle.getBoundingClientRect();
   const { innerWidth, innerHeight } = window;
   let canvasWidth = inScreenOnly ? innerWidth : eleWidth;
@@ -65,7 +72,7 @@ const generateSvg = async (ele, options) => {
     );
     height = Math.min(
       height,
-      element.clientHeight > 0 ? element.clientHeight : width
+      element.clientHeight > 0 ? element.clientHeight : height
     );
     const styles = getStyles(element, [
       "border-radius",
@@ -299,8 +306,8 @@ const generateSvg = async (ele, options) => {
 
         !skip &&
           nodes.push({
-            x,
-            y,
+            x: x- offsetX,
+            y: y- offsetY,
             width,
             height,
             elementBackgroundColor,
@@ -340,4 +347,6 @@ const generateSvg = async (ele, options) => {
   return SvgNodeArr.join("\n");
 };
 
-// generateSvg().then((res) => res);
+// generateSvg(document.getElementsByClassName('l m n o c')[0]).then((res) => copy(res));
+
+// generateSvg().then(res=>res)
