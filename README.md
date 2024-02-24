@@ -1,5 +1,7 @@
 # web-skeleton-generator
 Generate SVG skeleton image from HTML.
+The process looks like this:
+![](https://r2-assets.lynan.cn/u/ezgif-4-a36ef92550-f4jtgy.gif)
 
 [Still Working in Progress]
 
@@ -31,9 +33,9 @@ or
 
 ### Paramaters
 
-Parameters of `generateSvg(ele, options)` can be configured as you need.
+Parameters of `generateSvg(element, options)` can be configured as you need.
 
 | parameter | optional value                    | default value                                |
 |-----------|-----------------------------------|----------------------------------------------|
-| ele       | HTMLElement, Selector             | `document.body`                              |
+| element       | HTMLElement, Selector             | `document.body`                              |
 | options   | {<br>    inScreenOnly: boolean,<br> fillColor: string<br>} | {<br>    inScreenOnly: true,<br>fillColor: "rgba(227, 227, 227, 0.8)"<br>}<br> |
