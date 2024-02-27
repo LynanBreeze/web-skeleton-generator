@@ -42,8 +42,11 @@
   }
 
   const generateSvg = async (ele, options) => {
-    const { inScreenOnly = true, fillColor = "rgba(227, 227, 227, 0.8)" } =
-      options || {};
+    const {
+      inScreenOnly = true,
+      fillColor = "rgba(227, 227, 227, 0.8)",
+      visualized = false,
+    } = options || {};
     let targetEle = document.body;
 
     if (ele) {
@@ -321,7 +324,7 @@
             skip = true;
           }
 
-          if (["FIGURE"].includes(element.tagName)) {
+          if (["FIGURE", "YT-IMAGE"].includes(element.tagName)) {
             skip = true;
           }
 
@@ -333,6 +336,29 @@
             skip = true;
           }
 
+          if (visualized && !skip && nodes.length) {
+            element.style.backgroundColor = "rgba(255,0,0,0.3)";
+            element.style.backgroundImage = "none";
+            element.style.color = "transparent";
+            // if(element.children.length === 1){
+            //   ['PICTURE', 'IMG', 'SVG'].includes(element.children[0].tagName)?element.children[0].style.opacity = '0':null
+            // }
+            if (["IMG", "SVG"].includes(element.tagName)) {
+              element.style.backgroundColor = "rgba(255,0,0,0.3)";
+              element.src =
+                "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+              if (element.parentElement.tagName === "PICTURE") {
+                const elementClone = element.cloneNode(true);
+                const grandParentElement = element.parentElement.parentElement;
+                grandParentElement.removeChild(element.parentElement);
+                grandParentElement.appendChild(elementClone);
+              }
+            }
+            if (isIconWrap) {
+              element.children[0].style.opacity = "0";
+            }
+          }
+
           !skip &&
             nodes.push({
               x: x - offsetX,
@@ -342,6 +368,9 @@
               elementBackgroundColor,
               borderRadiusValue,
             });
+
+          visualized &&
+            (await new Promise((resolve) => setTimeout(resolve, 50)));
         }
       }
       if (width > 0 && !!element.children.length && element.tagName !== "svg") {
@@ -429,6 +458,6 @@
   window.generateSvg = generateSvg;
 
   // generateSvg(document.getElementsByClassName('l m n o c')[0]).then((res) => copy(res));
-
+  // generateSvg(document.body, { visualized: true }).then((res) => copy(res));
   // generateSvg().then((res) => copy(res));
 })();
